@@ -49,7 +49,6 @@ public class NotificationBuilder {
             Log.d(TAG, "Context is null!");
         }
 
-        String message = msgData.get("pinpoint.notification.body");
         String title = msgData.get("pinpoint.notification.title");
 
         if (title == null) {
@@ -88,10 +87,15 @@ public class NotificationBuilder {
                             .setAutoCancel(true);
 
             String message = msgData.get("message");
+            String pinpointMessage = msgData.get("pinpoint.notification.body");
             if (message != null) {
                 mBuilder.setContentText(message);
             } else {
-                mBuilder.setContentText(title);
+                if (pinpointMessage != null) {
+                    mBuilder.setContentText(pinpointMessage);
+                } else {
+                    mBuilder.setContentText("New Notification");
+                }
             }
 
             String msgcnt = msgData.get("msgcnt");
