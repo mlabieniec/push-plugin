@@ -49,6 +49,13 @@ public class NotificationBuilder {
             Log.d(TAG, "Context is null!");
         }
 
+        String message = msgData.get("pinpoint.notification.body");
+        String title = msgData.get("pinpoint.notification.title");
+
+        if (title == null) {
+            title = msgData.get("title");
+        }
+
         try {
 
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -74,8 +81,8 @@ public class NotificationBuilder {
                             .setDefaults(defaults)
                             .setSmallIcon(getSmallIcon(context, msgData))
                             .setWhen(System.currentTimeMillis())
-                            .setContentTitle(msgData.get("title"))
-                            .setTicker(msgData.get("title"))
+                            .setContentTitle(title)
+                            .setTicker(title)
                             .setContentIntent(contentIntent)
                             .setColor(getColor(msgData))
                             .setAutoCancel(true);
@@ -84,7 +91,7 @@ public class NotificationBuilder {
             if (message != null) {
                 mBuilder.setContentText(message);
             } else {
-                mBuilder.setContentText("<missing message content>");
+                mBuilder.setContentText(title);
             }
 
             String msgcnt = msgData.get("msgcnt");
